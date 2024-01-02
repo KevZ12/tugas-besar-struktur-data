@@ -176,6 +176,7 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 	string IDcabangOlahraga, IDatlet;
 	adrAtlet atlet;
 	adrCabangOlahraga cabangOlahraga;
+	bool keluar = false;
 
 	cout << "apakah anda ingin menampilkan list cabang olahraga?y/n" << endl;
 	cin >> option;
@@ -187,7 +188,7 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 	cout << "Masukan ID cabang olahraga yang anda ingin tambahkan" << endl;
 	cin >> IDcabangOlahraga;
 
-	while (findCabangOlahraga(L1,IDcabangOlahraga)==NULL)
+	while (findCabangOlahraga(L1,IDcabangOlahraga)==NULL && keluar == false)
 	{
 		cout << "ID cabang olah raga yang anda masukan tidak ditemukan" << endl;
 		cout << "Apakah anda ingin menambahkan cabang olahraga lainnya?y/n" << endl;
@@ -198,7 +199,11 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 			cin.ignore();
 			addCabangOlahraga(L1);
 		}
-		cout << "apakah anda ingin menampilkan list cabang olahraga?y/n" << endl;
+		else
+		{
+			return;
+		}
+		cout << "apakah anda ingin menampilkan list cabang olahraga?y/n" << endl;// y untuk iya dan n untuk kembali kemenu utama
 		cin >> option;
 		cin.ignore();
 		if (option == "y")
@@ -234,6 +239,10 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 			{
 				addAtlet(l2);
 			}
+			else
+			{
+				return;
+			}
 		}
 		else if(findAtletinCabangOlahraga(cabangOlahraga, IDatlet) != NULL)
 		{
@@ -260,12 +269,12 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 	newRelation->next = NULL;
 
 
-	if (L1.first->atlet == NULL)
+	if (cabangOlahraga->atlet == NULL)
 	{
-		L1.first->atlet = newRelation;
+		cabangOlahraga->atlet = newRelation;
 	}
 	else {
-		adrRelation lastRelation = L1.first->atlet;
+		adrRelation lastRelation = cabangOlahraga->atlet;
 		while (lastRelation->next!=NULL)
 		{
 			lastRelation = lastRelation->next;
@@ -273,42 +282,364 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 		lastRelation->next = newRelation;
 	}
 
+	cabangOlahraga->info.jumlahPeserta = hitungJumlahChild(L1, cabangOlahraga->info.id);
 
 }
 
 void PrintAtletOlahraga(listCabangOlahraga L1) {
 	adrCabangOlahraga P = L1.first;
-	cout << "Berikut merupakan list cabang olahraga beserta para atletnya:" << endl;
-	while (P != NULL) {
-		cout << "Nama Cabang Olahraga   : " << P->info.namaCabangOlahraga << endl;
-		cout << "Jumlah Peserta         : " << P->info.jumlahPeserta << endl;
-
-		adrRelation Q = P->atlet;
-		while (Q != NULL) {
-			adrAtlet R = Q->nextAtlet;
-			cout << "   - Nama          : " << R->info.nama << endl;
-			cout << "     Umur          : " << R->info.umur << endl;
-			cout << "     Tanggal Lahir : " << R->info.tanggalLahir << R->info.bulanLahir << R->info.tahunLahir << endl;
-
-			Q = Q->next;
-		}
-		P = P->next;
+	if (P == NULL)
+	{
+		cout << "List cabang Olahrag masih kosong" << endl;
 	}
+	else
+	{
+		cout << "Berikut merupakan list cabang olahraga beserta para atletnya:" << endl;
+		while (P != NULL) {
+			cout << "Nama Cabang Olahraga   : " << P->info.namaCabangOlahraga << endl;
+			cout << "deskripsi              : " << P->info.deskripsi << endl;
+			cout << "Jumlah Peserta         : " << P->info.jumlahPeserta << endl;
+
+
+			adrRelation Q = P->atlet;
+			if (Q == NULL)
+			{
+				cout << "-" << endl;
+			}
+			while (Q != NULL) {
+				adrAtlet R = Q->nextAtlet;
+				cout << "     Nama          : " << R->info.nama << endl;
+				cout << "     Umur          : " << R->info.umur << endl;
+				cout << "     Tanggal Lahir : " << R->info.tanggalLahir << "-" << R->info.bulanLahir << "-" << R->info.tahunLahir << endl;
+				cout << "     Berat Badan   :" << R->info.berarBadan << endl;
+				cout << "     Tinggi Badan  :" << R->info.tinggiBadan << endl;
+
+				Q = Q->next;
+			}
+			P = P->next;
+		}
+	}
+	
 }
 
 
-adrAtlet findAtletinCabangOlahraga(adrCabangOlahraga L,string IDatlet){
+adrRelation findAtletinCabangOlahraga(adrCabangOlahraga L,string IDatlet){
 	adrRelation relasi = L->atlet;
 	
 	while (relasi!=NULL)
 	{
 		if (relasi->nextAtlet->info.id == IDatlet)
 		{
-			return relasi->nextAtlet;
+			return relasi;
 		}
 		relasi = relasi->next;
 	}
 	return NULL;
-	//test bro
-	//test kedua
+	
 }
+
+
+void checkParentConnection(listCabangOlahraga L) {
+	string option;
+	
+
+	cout << "apakah anda ingin melihat daftar cabang Olahraga?y/n" << endl;
+	cin >> option;
+	if (option == "y")
+	{
+		showCabangOlangraga(L);
+	}
+
+	cout<< "masukan id cabang olahraga yang ingin anda check" << endl;
+	cin >> option;
+	adrCabangOlahraga P = findCabangOlahraga(L, option);
+	if (P == NULL)
+	{
+		cout << "id yang anda masukan tidak ditemukan" << endl;
+	}
+	else {
+		adrRelation Q = P->atlet;
+		if (Q== NULL)
+		{
+			cout << "data child pada cabang Olahraga " << P->info.namaCabangOlahraga << " masih kosong" << endl;
+		}
+		else {
+			
+			cout << "berikut daftar list atlet dari cabang olah raga " << P->info.namaCabangOlahraga<<endl;
+			while (Q != NULL) {
+				adrAtlet R = Q->nextAtlet;
+				cout << "     Nama          : " << R->info.nama << endl;
+				cout << "     Umur          : " << R->info.umur << endl;
+				cout << "     Tanggal Lahir : " << R->info.tanggalLahir << "-" << R->info.bulanLahir << "-" << R->info.tahunLahir << endl;
+				cout << "     Berat Badan   :" << R->info.berarBadan << endl;
+				cout << "     Tinggi Badan  :" << R->info.tinggiBadan << endl;
+
+				Q = Q->next;
+				cout << endl;
+			}
+		}
+		
+	}
+	getchar();
+	
+}
+
+
+
+int hitungJumlahChild(listCabangOlahraga L, string id) {
+	int i = 0;
+	adrCabangOlahraga cabangOlahraga = findCabangOlahraga(L, id);
+	if (cabangOlahraga == NULL)
+	{
+		cout << "maaf id yang anda masukan tidak ditemukan" << endl;
+		return NULL;
+	}
+	else {
+		adrRelation atlet = cabangOlahraga->atlet;
+		while (atlet != NULL)
+		{
+			i++;
+			atlet = atlet->next;
+		}
+		return i;
+	}
+}
+
+
+void deleteFirstRelation(adrCabangOlahraga& L, adrRelation P){
+	P = L->atlet;
+	L->atlet = L->atlet->next;
+	P->next = NULL;
+
+}
+void deleteLastRelation(adrCabangOlahraga& L, adrRelation P){
+	P = L->atlet;
+	while (P->next->next != NULL)
+	{
+		P = P->next;
+	}
+	P->next = NULL;
+}
+void deleteAfterRelation(adrCabangOlahraga& L, adrRelation PREC,adrRelation P){
+	P = PREC->next;
+	PREC->next = P->next;
+	P->next = NULL;
+}
+void deleteAtletRelation(listCabangOlahraga& L){
+	char option;
+	string ID;
+	adrRelation R;
+	adrCabangOlahraga P;
+	adrRelation s = L.first->atlet;
+	cout << "apakah anda ingin menampilkan list cabang olahraga yang ingin dihapus?y/n" << endl;
+	cin >> option;
+	if (option =='y')
+	{
+		showCabangOlangraga(L);
+	}
+	cout << "Masukan ID cabang olahraga yang ingin anda hapus" << endl;
+	cin >> ID;
+	P = findCabangOlahraga(L, ID);
+
+	if (P == NULL)
+	{
+		cout << "ID yang anda masukan tidak ditemukan" << endl;
+		
+	}
+	else
+	{
+		cout << "apakah anda ingin menampilkan relasi dari cabang olahraga?" << endl;
+		cin >> option;
+		if (option == 'y')
+		{
+			adrRelation Q = L.first->atlet;
+			while (Q != NULL) {
+				adrAtlet R = Q->nextAtlet;
+				cout << "     Nama          : " << R->info.nama << endl;
+				cout << "     Umur          : " << R->info.umur << endl;
+				cout << "     Tanggal Lahir : " << R->info.tanggalLahir << "-" << R->info.bulanLahir << "-" << R->info.tahunLahir << endl;
+				cout << "     Berat Badan   :" << R->info.berarBadan << endl;
+				cout << "     Tinggi Badan  :" << R->info.tinggiBadan << endl;
+
+				Q = Q->next;
+			}
+			
+
+		}
+		cout << "Masukan ID Relasi cabang olahraga yang ingin anda hapus" << endl;
+		cin >> ID;
+		R = findAtletinCabangOlahraga(P, ID);
+		
+
+		adrRelation PREC = L.first->atlet;
+		while (PREC != NULL && PREC->next != R)
+		{
+			PREC = PREC->next;
+		}
+	
+		
+
+		if (R == NULL)// KONDISI TIDAK DITEMUKAN
+		{
+			cout << "Relasi dari atlet tidak ditemukan" << endl;
+			
+		}
+		else if (R->next == NULL && hitungJumlahChild(L, P->info.id) == 1) {// KONDISI HANY ADA 1 RELASI
+			P->atlet = NULL;
+			
+		}
+		else if (R->next != NULL && hitungJumlahChild(L, P->info.id) > 1 && PREC == NULL)// KONDISI HANYA ADA 1 RELASI DAN LEBIH DARI 1 DATA KONDISI
+		{
+			
+			deleteFirstRelation(P, R);
+		}
+		else  if (R->next == NULL && hitungJumlahChild(L, P->info.id) > 1) // KONDISI DATA TERAKHIR DAN LEBIH DARI SATU RELASI
+		{
+			
+			deleteLastRelation(P, R);
+		}
+		else
+		{
+			
+			deleteAfterRelation(P, PREC, R);
+		}
+
+		P->info.jumlahPeserta = hitungJumlahChild(L, P->info.id);
+	}
+
+
+	
+}
+
+
+
+
+void deleteFirstChild(listAtlet& L, adrAtlet P) {
+	P = L.first;
+	L.first = L.first->next;
+	P->next = NULL;
+
+}
+
+
+void deletLastChild(listAtlet& L, adrAtlet P) {
+	P = L.first;
+	while (P->next->next!= NULL)
+	{
+		P = P->next;
+	}
+	P->next = NULL;
+}
+
+
+void deleteAfterChild(listAtlet& L, adrAtlet PREC, adrAtlet P) {
+	P = PREC->next;
+	PREC->next = P->next;
+	P->next = NULL;
+}
+
+
+void deleteChild(listCabangOlahraga& L1, listAtlet &L2) {
+	 string id,option;
+	 adrCabangOlahraga cabangOlahraga;
+	 cabangOlahraga = L1.first;
+	 adrRelation listAtletinParent;
+	
+	
+	cout << "Apakah anda ingin melihat daftar atlet terlebih dahulu" << endl;
+	cin >> option;
+	if (option =="y")
+	{
+		showAtlet(L2);
+	}
+	cout << "masukan id atlet yang ingin dihapus yang ingin dihapus" << endl;
+	cin >> id;
+	adrAtlet atlet = findAtlet(L2, id);
+	if (atlet == NULL)
+	{
+		cout << "id yang anda masukan tidak ditemukan" << endl;
+	}
+	else
+	{
+		
+		while (cabangOlahraga != NULL)
+		{
+
+			listAtletinParent = findAtletinCabangOlahraga(cabangOlahraga, id);
+			if (listAtletinParent != NULL)
+			{	
+				adrRelation R = findAtletinCabangOlahraga(cabangOlahraga, id);
+				adrRelation PREC = cabangOlahraga->atlet;
+				while (PREC != NULL && PREC->next != R)
+				{
+					PREC = PREC->next;
+				}
+
+
+
+				if (R == NULL)// KONDISI TIDAK DITEMUKAN
+				{
+					cout << "Relasi dari atlet tidak ditemukan" << endl;
+
+				}
+				else if (R->next == NULL && hitungJumlahChild(L1,cabangOlahraga->info.id) == 1) {// KONDISI HANY ADA 1 RELASI
+					L1.first->atlet = NULL;
+
+				}
+				else if (R->next != NULL && hitungJumlahChild(L1, cabangOlahraga->info.id) > 1 && PREC == NULL)// KONDISI HANYA ADA 1 RELASI DAN LEBIH DARI 1 DATA KONDISI
+				{
+
+					deleteFirstRelation(cabangOlahraga,R);
+				}
+				else  if (R->next == NULL && hitungJumlahChild(L1, cabangOlahraga->info.id) > 1) // KONDISI DATA TERAKHIR DAN LEBIH DARI SATU RELASI
+				{
+
+					deleteLastRelation(cabangOlahraga, R);
+				}
+				else
+				{
+
+					deleteAfterRelation(cabangOlahraga, PREC, R);
+				}
+
+				cabangOlahraga->info.jumlahPeserta = hitungJumlahChild(L1, cabangOlahraga->info.id);
+			}//asdsadsa
+			cabangOlahraga = cabangOlahraga->next;
+		}
+
+		
+
+		if (atlet == L2.first && L2.first->next == NULL)
+		{
+			
+			L2.first = NULL;
+		}
+		else if (atlet == L2.first && L2.first->next != NULL)
+		{
+			
+			deleteFirstChild(L2, atlet);
+		}
+		else if (atlet != L2.first && atlet->next == NULL)
+		{
+			
+			deletLastChild(L2, atlet);
+		}
+		else
+		{
+			
+			adrAtlet PrecAtlet = L2.first;
+			while (PrecAtlet->next != atlet)
+			{
+				PrecAtlet = PrecAtlet->next;
+			}
+			deleteAfterChild(L2, PrecAtlet, atlet);
+		}
+	}
+
+	getchar();
+
+}
+
+
+
+

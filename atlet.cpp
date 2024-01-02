@@ -95,6 +95,12 @@ void addAtlet(listAtlet& L) {
 
 void showAtlet(listAtlet L) {
 	adrAtlet P = L.first;
+	if (P == NULL)
+	{
+		cout << "list Atlet Masih kosong" << endl;
+	}
+
+
 	while (P != NULL) {
 		cout << "ID              :" << P->info.id << endl;
 		cout << "Nama            :" << P->info.nama << endl;
@@ -105,6 +111,27 @@ void showAtlet(listAtlet L) {
 		cout << "Tahun Lahir     :" << P->info.tahunLahir << endl;
 		cout << "Berat Badan     :" << P->info.berarBadan << endl;
 		cout << "Tinggi Badan    :" << P->info.tinggiBadan << endl;
+		cout << endl;
 		P = P->next;
 	}
+}
+
+
+
+
+void selectMenu() {
+	cout << "===========MENU============" << endl;
+	cout << "1. Insert Parent" << endl;
+	cout << "2. Print All Parent" << endl;
+	cout << "3. Insert Child" << endl;
+	cout << "4. Print All Child" << endl;
+	cout << "5. Connect Parent and Child" << endl;
+	cout << "6. Print child of a Parent" << endl;
+	cout << "7. Disconnect" << endl;
+	cout << "8. Print All" << endl;
+	cout << "9. Delete child" << endl;
+	cout << "10. Delete Parent" << endl;
+	cout << "Pilihan menu: " << endl;
+	cout << "===========================" << endl;
+	
 }

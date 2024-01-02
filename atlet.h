@@ -30,3 +30,4 @@ adrAtlet findAtlet(listAtlet L, string IDatlet);
 void insertAtlet(listAtlet &L, adrAtlet P);
 void addAtlet(listAtlet& L);
 void showAtlet(listAtlet L);
+void selectMenu();

@@ -55,5 +55,21 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet& l2);
 void PrintAtletOlahraga(listCabangOlahraga L1);
 
 
-adrAtlet findAtletinCabangOlahraga(adrCabangOlahraga L, string IDatlet);
+adrRelation findAtletinCabangOlahraga(adrCabangOlahraga L, string IDatlet);
+void checkParentConnection(listCabangOlahraga L);
 
+
+
+int hitungJumlahChild(listCabangOlahraga L,string id);
+
+
+
+void deleteFirstRelation(adrCabangOlahraga& L, adrRelation P);
+void deleteLastRelation(adrCabangOlahraga& L, adrRelation P);
+void deleteAfterRelation(adrCabangOlahraga& L, adrRelation PREC, adrRelation P);
+void deleteAtletRelation(listCabangOlahraga& L);
+
+void deleteFirstChild(listAtlet& L, adrAtlet P);
+void deletLastChild(listAtlet& L, adrAtlet P);
+void deleteAfterChild(listAtlet& L, adrAtlet PREC, adrAtlet P);
+void deleteChild(listCabangOlahraga& L1, listAtlet& L2);

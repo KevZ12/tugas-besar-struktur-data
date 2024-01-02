@@ -1,38 +1,100 @@
-// olah raga dan atlet perlombaan.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "olahraga.h"
-int main()
-{
-    
+
+int main() {
+    listCabangOlahraga cabangOlahraga;
+    createListCabangOlahraga(cabangOlahraga);
     listAtlet atlet;
-    listCabangOlahraga cabangOlahRaga;
-    createListCabangOlahraga(cabangOlahRaga);
     createListAtlet(atlet);
 
-    /*addCabangOlahraga(cabangOlahRaga);
-    addCabangOlahraga(cabangOlahRaga);
-
-    showCabangOlangraga(cabangOlahRaga);
+    /*
+    cout << "===========MENU============" << endl;
+	cout << "1. Insert Parent" << endl;
+	cout << "2. Print All Parent" << endl;
+	cout << "3. Insert Child" << endl;
+	cout << "4. Print All Child" << endl;
+	cout << "5. Connect Parent and Child" << endl;
+	cout << "6. Check Parent Connection" << endl;
+	cout << "7. Disconnect" << endl;
+	cout << "8. Print All" << endl;
+	cout << "9. Print child of a Parent" << endl;
+	cout << "10. Delete child" << endl;
+	cout << "11. Delete Parent" << endl;
+	cout << "Pilihan menu: " << endl;
+	cout << "===========================" << endl;
+    */
+    int pilihan;
     
-    addAtlet(atlet);
-    addAtlet(atlet);
+    pilihan = -1;
+    while (pilihan != 0) {
+        system("cls");
+        selectMenu();
+        cin >> pilihan;
+        cin.ignore();
+        switch (pilihan) {
+        case 1: {
+            addCabangOlahraga(cabangOlahraga);
 
-    showAtlet(atlet);*/
+            break;
+        }
 
+        case 2: {
+            showCabangOlangraga(cabangOlahraga);
+            getchar();
+            break;
+        }
 
+        case 3: {
+            addAtlet(atlet);
+            break;
+        }
 
-    addAtletToOlaraga(cabangOlahRaga, atlet);
-    addAtletToOlaraga(cabangOlahRaga, atlet);
-    cout << endl << endl;
+        case 4: {
 
-    PrintAtletOlahraga(cabangOlahRaga);
- 
-    
-    
-   
-    
+            showAtlet(atlet);
+            getchar();
+            break;
+        }
+
+        case 5: {
+            addAtletToOlaraga(cabangOlahraga, atlet);
+            break;
+        }
+
+        case 6: {
+            checkParentConnection(cabangOlahraga);
+            getchar();
+            break;
+        }
+
+        case 7: {
+            deleteAtletRelation(cabangOlahraga);
+            break;
+        }
+
+        case 8: {
+            PrintAtletOlahraga(cabangOlahraga);
+            getchar();
+            break;
+        }
+
+        case 9: {
+
+            deleteChild(cabangOlahraga, atlet);
+            getchar();
+            break;
+        }
+
+        case 10: {
+
+            deleteCabangOlahraga(cabangOlahraga);
+            break;
+        }
+
+        
+               
+        }
+        
+    }
+
     return 0;
-    
 }
-
