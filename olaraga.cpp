@@ -564,11 +564,14 @@ void deleteChild(listCabangOlahraga& L1, listAtlet &L2) {
 		
 		while (cabangOlahraga != NULL)
 		{
+			cout << "test" << endl;
 
 			listAtletinParent = findAtletinCabangOlahraga(cabangOlahraga, id);
 			if (listAtletinParent != NULL)
 			{	
+				cout << "test2" << endl;
 				adrRelation R = findAtletinCabangOlahraga(cabangOlahraga, id);
+				cout << R->nextAtlet->info.nama;
 				adrRelation PREC = cabangOlahraga->atlet;
 				while (PREC != NULL && PREC->next != R)
 				{
@@ -583,7 +586,7 @@ void deleteChild(listCabangOlahraga& L1, listAtlet &L2) {
 
 				}
 				else if (R->next == NULL && hitungJumlahChild(L1,cabangOlahraga->info.id) == 1) {// KONDISI HANY ADA 1 RELASI
-					L1.first->atlet = NULL;
+					cabangOlahraga->atlet = NULL;
 
 				}
 				else if (R->next != NULL && hitungJumlahChild(L1, cabangOlahraga->info.id) > 1 && PREC == NULL)// KONDISI HANYA ADA 1 RELASI DAN LEBIH DARI 1 DATA KONDISI

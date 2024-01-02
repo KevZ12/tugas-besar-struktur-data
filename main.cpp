@@ -81,6 +81,7 @@ int main() {
 
             deleteChild(cabangOlahraga, atlet);
             getchar();
+            
             break;
         }
 
