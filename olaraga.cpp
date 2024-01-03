@@ -103,14 +103,14 @@ void deleteAfterCabangOlahraga(listCabangOlahraga& L, adrCabangOlahraga prec, ad
 
 //3. menghapus data parent beserta Relasinya (15 point)
 void deleteCabangOlahraga(listCabangOlahraga& L) {
-	char option;
+	string option;
 	string ID;
 	adrCabangOlahraga P;
 	
 	//MEMBERIKAN OPSI UNTUK MENAMPILKAN DATA PARENT
 	cout << "Apakah anda ingin menampilkan seluruh data cabang olah raga?y/n" << endl;
 		cin >> option;
-	if (option == 'y')
+	if (option == "y")
 	{
 		showCabangOlangraga(L);
 	}
@@ -121,6 +121,7 @@ void deleteCabangOlahraga(listCabangOlahraga& L) {
 	if (L.first == NULL)
 	{
 		cout << "maaf data cabang olahraga masih kosong" << endl;
+		getchar();
 	} else if (P == NULL)//KONDISI CABANG OLAHRAGA KOSONG ATAU TIDAK DITEMUKAN
 	{
 		cout << "maaf id yang anda masukan tidak ditemukan" << endl;
@@ -145,7 +146,7 @@ void deleteCabangOlahraga(listCabangOlahraga& L) {
 	}
 
 
-
+	
 	
 
 
@@ -315,6 +316,7 @@ void PrintAtletOlahraga(listCabangOlahraga L1) {
 				cout << "     Tinggi Badan  :" << R->info.tinggiBadan << endl;
 
 				Q = Q->next;
+				cout << endl;
 			}
 			P = P->next;
 		}
@@ -564,14 +566,14 @@ void deleteChild(listCabangOlahraga& L1, listAtlet &L2) {
 		
 		while (cabangOlahraga != NULL)
 		{
-			cout << "test" << endl;
+			
 
 			listAtletinParent = findAtletinCabangOlahraga(cabangOlahraga, id);
 			if (listAtletinParent != NULL)
 			{	
-				cout << "test2" << endl;
+				
 				adrRelation R = findAtletinCabangOlahraga(cabangOlahraga, id);
-				cout << R->nextAtlet->info.nama;
+				
 				adrRelation PREC = cabangOlahraga->atlet;
 				while (PREC != NULL && PREC->next != R)
 				{
