@@ -47,6 +47,9 @@ void insertAtlet(listAtlet &L, adrAtlet P) {
 	}
 }
 
+
+
+//6. menambahkan data child
 void addAtlet(listAtlet& L) {
 	infotypeAtlet X;
 	adrAtlet P;

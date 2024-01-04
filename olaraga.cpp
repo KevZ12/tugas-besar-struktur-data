@@ -287,6 +287,9 @@ void addAtletToOlaraga(listCabangOlahraga& L1, listAtlet &l2) {
 
 }
 
+
+
+//8. menampilkan seluruh data parent beserta childnya
 void PrintAtletOlahraga(listCabangOlahraga L1) {
 	adrCabangOlahraga P = L1.first;
 	if (P == NULL)
@@ -325,6 +328,8 @@ void PrintAtletOlahraga(listCabangOlahraga L1) {
 }
 
 
+
+//9. mencari data child pada parent tertentu
 adrRelation findAtletinCabangOlahraga(adrCabangOlahraga L,string IDatlet){
 	adrRelation relasi = L->atlet;
 	
@@ -387,7 +392,7 @@ void checkParentConnection(listCabangOlahraga L) {
 }
 
 
-
+//11. menghitung jumlah data child
 int hitungJumlahChild(listCabangOlahraga L, string id) {
 	int i = 0;
 	adrCabangOlahraga cabangOlahraga = findCabangOlahraga(L, id);
@@ -427,12 +432,15 @@ void deleteAfterRelation(adrCabangOlahraga& L, adrRelation PREC,adrRelation P){
 	PREC->next = P->next;
 	P->next = NULL;
 }
+
+
+//10 menghapus data child beserta relasinya
 void deleteAtletRelation(listCabangOlahraga& L){
 	char option;
 	string ID;
-	adrRelation R;
-	adrCabangOlahraga P;
-	adrRelation s = L.first->atlet;
+	adrRelation R;//adr relation
+	adrCabangOlahraga P;// adr parent
+	adrRelation s = L.first->atlet;//adr relation 
 	cout << "apakah anda ingin menampilkan list cabang olahraga yang ingin dihapus?y/n" << endl;
 	cin >> option;
 	if (option =='y')
@@ -454,7 +462,7 @@ void deleteAtletRelation(listCabangOlahraga& L){
 		cin >> option;
 		if (option == 'y')
 		{
-			adrRelation Q = L.first->atlet;
+			adrRelation Q = P->atlet;
 			while (Q != NULL) {
 				adrAtlet R = Q->nextAtlet;
 				cout << "     Nama          : " << R->info.nama << endl;
@@ -473,7 +481,7 @@ void deleteAtletRelation(listCabangOlahraga& L){
 		R = findAtletinCabangOlahraga(P, ID);
 		
 
-		adrRelation PREC = L.first->atlet;
+		adrRelation PREC = P->atlet;
 		while (PREC != NULL && PREC->next != R)
 		{
 			PREC = PREC->next;
@@ -556,7 +564,7 @@ void deleteChild(listCabangOlahraga& L1, listAtlet &L2) {
 	}
 	cout << "masukan id atlet yang ingin dihapus yang ingin dihapus" << endl;
 	cin >> id;
-	adrAtlet atlet = findAtlet(L2, id);
+	adrAtlet atlet = findAtlet(L2, id);//find child
 	if (atlet == NULL)
 	{
 		cout << "id yang anda masukan tidak ditemukan" << endl;
